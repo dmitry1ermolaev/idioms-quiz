@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Idioms Quiz</title>
+  <style>
+    body {
+      background: #0f0f0f;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+      color: #f0f0f0;
+    }
+    main {
+      max-width: 720px;
+      width: 100%;
+      padding: 24px;
+    }
+    h1 {
+      font-size: 28px;
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+    .options {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .option {
+      border: 2px solid #8c8c8c;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: 20px;
+      color: #e6e6e6;
+      margin-bottom: 14px;
+      cursor: pointer;
+      position: relative;
+      word-break: normal;
+      hyphens: none;
+      white-space: normal;
+    }
+    .option:focus {
+      outline: 2px solid #f0f0f0;
+    }
+    .blank {
+      display: inline-block;
+      min-width: 140px;
+      border-bottom: 2px solid #8c8c8c;
+      text-align: center;
+      vertical-align: baseline;
+    }
+    .blank.filled {
+      border-bottom: none;
+    }
+    .correct {
+      border: 2px solid #2da543 !important;
+    }
+    .wrong {
+      border: 2px solid #e78b89 !important;
+    }
+    .correct .blank {
+      color: #2da543;
+    }
+    .wrong .blank {
+      color: #e78b89;
+    }
+    .icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+    }
+    .explanation {
+      background: #262626;
+      border-radius: 8px;
+      padding: 18px;
+      margin-top: 20px;
+      display: none;
+    }
+    .explanation h2 {
+      margin-top: 0;
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .explanation p {
+      color: #f0f0f0;
+      margin: 0;
+    }
+    .reset {
+      background: #262626;
+      color: #ffffff;
+      border: 2px solid #8c8c8c;
+      padding: 10px 18px;
+      border-radius: 6px;
+      margin-top: 16px;
+      cursor: pointer;
+    }
+    .reset:hover {
+      background: #333333;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Choose the only sentence where the expression 'Off the top of my head' is correct.</h1>
+    <ul class="options"></ul>
+    <section class="explanation" aria-live="polite">
+      <h2>Пояснение</h2>
+      <p></p>
+    </section>
+    <button class="reset">Reset</button>
+  </main>
+  <script>
+    const optionsData = [
+      {
+        text: "How many countries are in the European Union? Well, <span class='blank'></span>, I think around 27.",
+        correct: true,
+        explanation: "Правильно. В данном предложении выражение 'Off the top of my head' употребляется в переносном значении 'на вскидку, по памяти'. Здесь говорящий называет приблизительное число без точной проверки, поэтому фраза уместна."
+      },
+      {
+        text: "She took her hat <span class='blank'></span> and placed it on the chair.",
+        correct: false,
+        explanation: "Неверно. В этом предложении выражение используется буквально со словом 'hat', но идиома 'Off the top of my head' так не употребляется."
+      },
+      {
+        text: "He cut <span class='blank'></span> with a knife while cooking.",
+        correct: false,
+        explanation: "Неверно. Вставка 'Off the top of my head' делает предложение бессмысленным. В данном контексте идиома не используется."
+      }
+    ];
+
+    const optionsContainer = document.querySelector('.options');
+    const explanationBox = document.querySelector('.explanation');
+    const explanationText = explanationBox.querySelector('p');
+    const resetButton = document.querySelector('.reset');
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function renderOptions() {
+      optionsContainer.innerHTML = "";
+      shuffle(optionsData);
+      optionsData.forEach(opt => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerHTML = opt.text;
+        li.setAttribute('tabindex', '0');
+        li.dataset.correct = opt.correct;
+        li.addEventListener('click', () => selectOption(li, opt));
+        li.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectOption(li, opt);
+          }
+        });
+        optionsContainer.appendChild(li);
+      });
+    }
+
+    function selectOption(li, opt) {
+      document.querySelectorAll('.option').forEach(o => {
+        o.classList.remove('correct', 'wrong');
+        const blank = o.querySelector('.blank');
+        blank.textContent = "";
+        blank.classList.remove('filled');
+        const icon = o.querySelector('.icon');
+        if (icon) icon.remove();
+      });
+
+      const blank = li.querySelector('.blank');
+      blank.textContent = "Off the top of my head";
+      blank.classList.add('filled');
+
+      const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      icon.setAttribute("class", "icon");
+      icon.setAttribute("viewBox", "0 0 24 24");
+
+      if (opt.correct) {
+        li.classList.add('correct');
+        icon.innerHTML = '<circle cx="12" cy="12" r="11" stroke="#2da543" stroke-width="2" fill="none"/><path d="M6 12l4 4 8-8" stroke="white" stroke-width="2" fill="none"/>';
+      } else {
+        li.classList.add('wrong');
+        icon.innerHTML = '<circle cx="12" cy="12" r="11" stroke="#e78b89" stroke-width="2" fill="none"/><line x1="8" y1="8" x2="16" y2="16" stroke="white" stroke-width="2"/><line x1="16" y1="8" x2="8" y2="16" stroke="white" stroke-width="2"/>';
+      }
+      li.appendChild(icon);
+
+      explanationBox.style.display = 'block';
+      explanationText.textContent = opt.explanation;
+    }
+
+    resetButton.addEventListener('click', () => {
+      renderOptions();
+      explanationBox.style.display = 'none';
+    });
+
+    renderOptions();
+  </script>
+</body>
+</html>
