@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Idiom Test — It happens to the best of us</title>
+<style>
+  body {
+    background-color: #0f0f0f;
+    color: #f0f0f0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 24px;
+  }
+
+  main {
+    max-width: 720px;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 28px;
+    line-height: 1.25;
+    margin-bottom: 20px;
+    color: #f0f0f0;
+  }
+
+  ul.options {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .option {
+    border: 2px solid #8c8c8c;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 20px;
+    color: #e6e6e6;
+    margin-bottom: 14px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s;
+  }
+
+  .option:focus {
+    outline: 2px solid #2da543;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: none;
+  }
+
+  .option.correct {
+    border-color: #2da543 !important;
+  }
+
+  .option.correct .blank {
+    color: #2da543;
+  }
+
+  .option.correct .icon {
+    display: inline-block;
+  }
+
+  .option.wrong {
+    border-color: #e78b89 !important;
+  }
+
+  .option.wrong .blank {
+    color: #e78b89;
+  }
+
+  .option.wrong .icon {
+    display: inline-block;
+  }
+
+  .blank {
+    display: inline-block;
+    min-width: 140px;
+    border-bottom: 2px solid #8c8c8c;
+    text-align: center;
+    vertical-align: baseline;
+  }
+
+  .blank.filled {
+    border-bottom: none;
+  }
+
+  .explanation {
+    background-color: #262626;
+    border-radius: 8px;
+    padding: 18px;
+    display: none;
+  }
+
+  .explanation h2 {
+    margin-top: 0;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  .explanation p {
+    margin: 0;
+    color: #f0f0f0;
+  }
+
+  button.reset {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background-color: #0f0f0f;
+    border: 2px solid #8c8c8c;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  button.reset:hover {
+    background-color: #262626;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Choose the only sentence where the expression 'It happens to the best of us' is correct.</h1>
+  <ul class="options">
+    <li class="option" data-correct="true">
+      I accidentally spilled my coffee during the meeting — <span class="blank" aria-hidden="true"></span>.
+      <svg class="icon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="#2da543" stroke-width="2" fill="none"/>
+        <path d="M6 12l4 4 8-8" stroke="#ffffff" stroke-width="2" fill="none"/>
+      </svg>
+    </li>
+    <li class="option" data-correct="false">
+      She won the competition again — <span class="blank" aria-hidden="true"></span>.
+      <svg class="icon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="#e78b89" stroke-width="2" fill="none"/>
+        <line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="2"/>
+        <line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="2"/>
+      </svg>
+    </li>
+    <li class="option" data-correct="false">
+      He always plans everything perfectly — <span class="blank" aria-hidden="true"></span>.
+      <svg class="icon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="#e78b89" stroke-width="2" fill="none"/>
+        <line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="2"/>
+        <line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="2"/>
+      </svg>
+    </li>
+  </ul>
+
+  <section class="explanation" aria-live="polite">
+    <h2>Пояснение</h2>
+    <p></p>
+  </section>
+
+  <button class="reset">Reset</button>
+</main>
+
+<script>
+  const optionsList = document.querySelector('.options');
+  const options = Array.from(document.querySelectorAll('.option'));
+  const explanation = document.querySelector('.explanation');
+  const explanationText = explanation.querySelector('p');
+  const resetBtn = document.querySelector('.reset');
+
+  const expression = "It happens to the best of us";
+
+  const explanations = {
+    correct: 'Правильно. Здесь выражение "It happens to the best of us" означает «так бывает с каждым» — способ утешить человека, допустившего ошибку или неловкость. В контексте пролитого кофе фраза звучит естественно и сочувственно.',
+    wrong1: 'Неверно. Фраза не используется, когда кто-то преуспевает — она относится к ошибкам или неудачам, а не к успеху.',
+    wrong2: 'Неверно. Здесь нет ошибки или промаха, поэтому выражение "It happens to the best of us" не подходит по смыслу.'
+  };
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  function resetOptionsState() {
+    options.forEach(o => {
+      o.classList.remove('correct', 'wrong');
+      o.querySelector('.blank').textContent = '';
+      o.querySelector('.blank').classList.remove('filled');
+      o.querySelector('.icon').style.display = 'none';
+      o.style.borderColor = '#8c8c8c';
+    });
+  }
+
+  function renderOptions() {
+    shuffle(options);
+    optionsList.innerHTML = '';
+    resetOptionsState();
+    options.forEach(opt => optionsList.appendChild(opt));
+    explanation.style.display = 'none';
+  }
+
+  function selectOption(opt) {
+    resetOptionsState();
+
+    const blank = opt.querySelector('.blank');
+    blank.textContent = expression;
+    blank.classList.add('filled');
+
+    if (opt.dataset.correct === "true") {
+      opt.classList.add('correct');
+      opt.querySelector('.icon').style.display = 'inline-block';
+      explanationText.textContent = explanations.correct;
+    } else {
+      opt.classList.add('wrong');
+      opt.querySelector('.icon').style.display = 'inline-block';
+      explanationText.textContent = explanations.wrong1;
+    }
+
+    explanation.style.display = 'block';
+  }
+
+  options.forEach(opt => {
+    opt.setAttribute('tabindex', '0');
+    opt.addEventListener('click', () => selectOption(opt));
+    opt.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectOption(opt);
+      }
+    });
+  });
+
+  resetBtn.addEventListener('click', renderOptions);
+
+  renderOptions();
+</script>
+</body>
+</html>
