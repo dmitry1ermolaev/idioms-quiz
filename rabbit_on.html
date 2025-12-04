@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>English Idiom Test – rabbit on</title>
+<style>
+  * { box-sizing: border-box;
+  }
+
+  body {
+    background-color: #0f0f0f;
+    color: #f0f0f0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 16px;
+  }
+
+  main { max-width: 720px; width: 100%;
+    padding: 8px; }
+
+  h1 {
+    font-size: clamp(20px, 5vw, 28px);
+    line-height: 1.3;
+    margin-bottom: 20px;
+    color: #f0f0f0;
+  }
+
+  ul.options { list-style: none; padding: 0; margin: 0 0 20px 0;
+  }
+
+  .option {
+    border: 2px solid #8c8c8c;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: clamp(16px, 4vw, 20px);
+    line-height: 1.4;
+    color: #e6e6e6;
+    margin-bottom: 12px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .option:hover { background-color: #1a1a1a; border-color: #a0a0a0;
+  }
+  .option:active { transform: scale(0.98); }
+  .option:focus { outline: 2px solid #2da543; outline-offset: 2px;
+  }
+
+  .option-text { flex: 1; min-width: 0; }
+
+  .icon { width: 24px; height: 24px; min-width: 24px; flex-shrink: 0;
+    display: none; }
+
+  .option.correct { border-color: #2da543 !important; background-color: rgba(45,165,67,0.1); }
+  .option.correct .blank { color: #2da543; font-weight: 600;
+  }
+  .option.correct .icon { display: inline-block; }
+
+  .option.wrong { border-color: #e78b89 !important; background-color: rgba(231,139,137,0.1);
+  }
+  .option.wrong .blank { color: #e78b89; font-weight: 600; }
+  .option.wrong .icon { display: inline-block;
+  }
+
+  .option.disabled { cursor: not-allowed; pointer-events: none; }
+
+  .blank {
+    display: inline-block;
+    min-width: 100px;
+    border-bottom: 2px solid #8c8c8c;
+    text-align: center;
+    vertical-align: baseline;
+    padding: 0 4px;
+  }
+  .blank.filled { border-bottom: none;
+  }
+
+  .explanation {
+    background-color: #262626;
+    border-radius: 8px;
+    padding: 16px;
+    display: none;
+    margin-bottom: 16px;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px);
+    }
+    to { opacity: 1; transform: translateY(0);
+    }
+  }
+
+  .explanation h2 {
+    margin-top: 0; margin-bottom: 12px; font-weight: bold;
+    font-size: clamp(18px, 4vw, 22px);
+    color: #ffffff;
+  }
+  .explanation p { margin: 0; color: #f0f0f0; line-height: 1.5; font-size: clamp(14px,3.5vw,16px);
+  }
+
+  button.reset {
+    margin-top: 8px; padding: 12px 24px; width: 100%; max-width: 200px;
+    background-color: #0f0f0f;
+    border: 2px solid #8c8c8c; border-radius: 8px;
+    color: #ffffff; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button.reset:hover { background-color: #262626; border-color: #a0a0a0; }
+  button.reset:active { transform: scale(0.96);
+  }
+
+  @media (max-width:480px){
+    body { padding: 12px; } main { padding: 4px;
+    }
+    .option { padding: 12px 14px; margin-bottom: 10px; }
+    .icon { width: 20px;
+    height: 20px; min-width: 20px; }
+    .explanation { padding: 14px; }
+    button.reset { max-width: 100%;
+    }
+  }
+  @media (min-width:768px){ body { padding: 32px } main { padding: 16px } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Choose the only sentence where the expression 'rabbit on' is correct.</h1>
+
+  <ul class="options" id="options">
+    <li class="option" data-correct="true"
+        data-expl="Правильно. 'Rabbit on' — означает 'говорить без умолку, часто о чём-то скучном или незначительном'. Здесь говорящий устал от долгого рассказа.">
+      <span class="option-text">She would <span class="blank" aria-hidden="true"></span> about her hobbies for hours if you let her.</span>
+      <svg class="icon" viewBox="0 0 24 
+24">
+        <circle cx="12" cy="12" r="10" stroke="#2da543" stroke-width="2" fill="none"/>
+        <path d="M6 12l4 4 8-8" stroke="#ffffff" stroke-width="2" fill="none"/>
+      </svg>
+    </li>
+
+    <li class="option" data-correct="false"
+        data-expl="Неверно. Здесь слово 'rabbit' употреблено буквально как животное. Идиома 'rabbit on' не означает животное или бег.">
+      <span class="option-text">Did you see the <span class="blank" aria-hidden="true"></span> in the field this morning?</span>
+      <svg class="icon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="#e78b89" stroke-width="2" fill="none"/>
+        <line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="2"/>
+        <line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="2"/>
+      </svg>
+    </li>
+
+    <li class="option" data-correct="false"
+        data-expl="Неверно. В этом предложении сочетание слов не образует логичный смысл и не соответствует идиоме 'rabbit on'.">
+      <span class="option-text">The shelf was too heavy for him to <span class="blank" aria-hidden="true"></span>.</span>
+      <svg class="icon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="#e78b89" stroke-width="2" fill="none"/>
+        <line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="2"/>
+        <line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="2"/>
+      </svg>
+    </li>
+  </ul>
+
+  <section 
+class="explanation" aria-live="polite">
+    <h2>Пояснение</h2>
+    <p></p>
+  </section>
+
+  <button class="reset" id="resetBtn">Reset</button>
+</main>
+
+<script>
+  const optionsList = document.getElementById('options');
+  let options = Array.from(optionsList.querySelectorAll('.option'));
+  const explanation = document.querySelector('.explanation');
+  const explanationText = explanation.querySelector('p');
+  const resetBtn = document.getElementById('resetBtn');
+  const expression = "rabbit on";
+
+  let answered = false;
+  // Fisher–Yates shuffle (in-place)
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  function resetOptionsState() {
+    answered = false;
+    options.forEach(o => {
+      o.classList.remove('correct', 'wrong', 'disabled');
+      const blank = o.querySelector('.blank');
+      blank.textContent = '';
+      blank.classList.remove('filled');
+      const icon = o.querySelector('.icon');
+      if (icon) icon.style.display = 'none';
+    });
+    explanation.style.display = 'none';
+    explanationText.textContent = '';
+  }
+
+  function renderOptions() {
+    // Recompute options collection (in case DOM changed)
+    options = Array.from(optionsList.querySelectorAll('.option'));
+    // Shuffle the array of elements, then append in new order
+    shuffleArray(options);
+    optionsList.innerHTML = '';
+    options.forEach(el => optionsList.appendChild(el));
+    resetOptionsState();
+    // Ensure accessibility tabindex/role and keyboard handlers are set/updated
+    options.forEach((opt, idx) => {
+      opt.setAttribute('tabindex', '0');
+      opt.setAttribute('role', 'button');
+      // Remove existing listeners by cloning if needed to prevent duplicates
+      // (safe simple approach: replace with fresh clone and reassign listeners)
+      const clone = opt.cloneNode(true);
+      optionsList.replaceChild(clone, opt);
+      options[idx] = clone;
+    });
+    // Rebind event listeners after cloning
+    options = Array.from(optionsList.querySelectorAll('.option'));
+    options.forEach((opt, idx) => {
+      opt.addEventListener('click', () => selectOption(opt));
+      opt.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectOption(opt);
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = options[(idx + 1) % options.length];
+ 
+          next.focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = options[(idx - 1 + options.length) % options.length];
+          prev.focus();
+        }
+      });
+    });
+  }
+
+  function selectOption(selectedOpt) {
+    if (answered) return;
+    answered = true;
+
+    const isCorrect = selectedOpt.dataset.correct === "true";
+    const blank = selectedOpt.querySelector('.blank');
+    blank.textContent = expression;
+    blank.classList.add('filled');
+
+    // Show icon and apply classes only to selected option
+    if (isCorrect) {
+      selectedOpt.classList.add('correct');
+    } else {
+      selectedOpt.classList.add('wrong');
+    }
+    const icon = selectedOpt.querySelector('.icon');
+    if (icon) icon.style.display = 'inline-block';
+
+    // Disable all options
+    options.forEach(opt => opt.classList.add('disabled'));
+    // Use the explanation text tied to the option via data-expl
+    const expl = selectedOpt.dataset.expl || '';
+    explanationText.textContent = expl;
+    explanation.style.display = 'block';
+
+    // Scroll explanation into view but do not attempt to rely on async behavior
+    explanation.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Reset button simply re-renders options (which also reshuffles)
+  resetBtn.addEventListener('click', () => {
+    renderOptions();
+  });
+  // Initial render
+  renderOptions();
+</script>
+</body>
+</html>
